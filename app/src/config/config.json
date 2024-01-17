@@ -1,0 +1,8 @@
+{
+    "development": {
+        "dialect": "postgres",
+        "config": {
+            "dotenv": true 
+          }
+    }
+}
