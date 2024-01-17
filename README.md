@@ -4,12 +4,12 @@ RESTful API services with Node.js-Express and PostgreSQL
 # Project setup with docker
 Project installation steps with Docker
 
-### local mode
+### Local mode
 
 ```bash
 
 $ cd docker/
-$ docker-compose -f docker-compose.yml -f docker-compose.local.yml --project-name conquerer --env-file ./config/.env up --build -d
+$ docker-compose -f docker-compose.yml -f docker-compose.local.yml --project-name conquerer --env-file ./config/.local.env up --build -d
 
 ```
 ### Dev mode
@@ -17,7 +17,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose.local.yml --project-nam
 ```bash
 
 $ cd docker/
-$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml --project-name conquerer --env-file ./config/.env up --build -d
+$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml --project-name conquerer --env-file ./config/.dev.env up --build -d
 
 ```
 

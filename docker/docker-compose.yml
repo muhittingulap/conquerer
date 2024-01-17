@@ -12,11 +12,24 @@ services:
       context: .
       dockerfile: nginx/nginx.yml
     depends_on:
+      - postgres
       - app
     networks:
       - conquerer
     ports:
         - 80:80
+
+  postgres:
+    image: postgres:latest
+    container_name: conquerer_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/postgresql:/var/lib/postgresql/data
 
   # Node.js express api server 
   app:
@@ -24,6 +37,8 @@ services:
     build: 
       context: .
       dockerfile: node/node.yml
+    depends_on:
+      - postgres
     volumes:
       - ./../app:/home/conquerer/app/
     networks: 
