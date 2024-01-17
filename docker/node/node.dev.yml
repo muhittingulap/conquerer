@@ -1,0 +1,8 @@
+FROM node:16.20.1-alpine
+
+WORKDIR /home/conquerer/app
+COPY . .
+
+CMD yarn install && yarn dev
+
+EXPOSE 8080

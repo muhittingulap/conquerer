@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  # Ngnix dev
+  nginx:
+    build: 
+      context: .
+      dockerfile: nginx/nginx.dev.yml   
+
+  # Node.js express api server 
+  app:
+    build: 
+      context: .
+      dockerfile: node/node.dev.yml   

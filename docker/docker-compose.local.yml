@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  # Nginx local
+  nginx:
+    build: 
+      context: .
+      dockerfile: nginx/nginx.local.yml   
+
+  # Node.js express api server 
+  app:
+    build: 
+      context: .
+      dockerfile: node/node.local.yml   

@@ -1,0 +1,30 @@
+version: '3'
+
+networks: 
+  conquerer:
+
+services:
+
+  # Nginx Prod
+  nginx:
+    container_name: conquerer_nginx
+    build: 
+      context: .
+      dockerfile: nginx/nginx.yml
+    depends_on:
+      - app
+    networks:
+      - conquerer
+    ports:
+        - 80:80
+
+  # Node.js express api server 
+  app:
+    container_name: conquerer_app
+    build: 
+      context: .
+      dockerfile: node/node.yml
+    volumes:
+      - ./../app:/home/conquerer/app/
+    networks: 
+      - conquerer
