@@ -12,12 +12,14 @@ Validators
 */
 const {
     createValidator,
+    createCommentValidator,
     updateValidator
 } = require("../../../validators/blogs");
 
 // auth
 blogs.get("/", auth, blogController.lists);
 blogs.post("/", createValidator, error, auth, blogController.create);
+blogs.post("/:id/comments", createCommentValidator, error, auth, blogController.createComment);
 blogs.put("/:id", updateValidator, error, auth, blogController.update);
 blogs.delete("/:id", auth, blogController.del);
 

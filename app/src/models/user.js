@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     birthday:DataTypes.STRING
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'User',
   });
   return User;

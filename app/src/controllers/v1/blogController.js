@@ -5,109 +5,161 @@ const User = require("../../models").User;
 const Blog = require("../../models").Blog;
 const Category = require("../../models").Category;
 const Comment = require("../../models").Comment;
+const { sequelize } = require("../../models");
 
 
 const lists = async (req, res) => {
-    try {
+  try {
 
-        const blogLists = await Blog.findAll({
+    const blogLists = await Blog.findAll({
+      include: [
+        {
+          model: Comment,
+          as: 'comments',
           include: [
             {
-              model: Comment,
-              as: 'comments',
-              include: [
-                {
-                  model: User,
-                  as: 'User',
-                  attributes: ['full_name']
-                },
-              ],
-            },
-            {
               model: User,
-              as: 'User', 
+              as: 'User',
               attributes: ['full_name']
             },
           ],
-        });
-    
-        return res.json({ status: true, message: 'Başarıyla listelendi', data: blogLists });
-      } catch (error) {
-        return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
-      }
+        },
+        {
+          model: User,
+          as: 'User',
+          attributes: ['full_name']
+        },
+      ],
+    });
+
+    return res.json({ status: true, message: 'Başarıyla listelendi', data: blogLists });
+  } catch (error) {
+    return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
+  }
 }
 
 const create = async (req, res) => {
-    const { category_id, title, content } = req.body;
+  const { category_id, title, content } = req.body;
 
-    try {
-        // Kategori kontrolü yapıyorum
-        const category = await Category.findByPk(category_id);
+  try {
+    // Kategori kontrolü yapıyorum
+    const category = await Category.findByPk(category_id);
 
-        if (!category) return res.status(404).json({ status: false, code: 3001, errors: [{ msg: 'Geçersiz kategori' }] });
+    if (!category) return res.status(404).json({ status: false, code: 3001, errors: [{ msg: 'Geçersiz kategori' }] });
 
-        // Kategori varsa blog ekliyorum ve son eklenen blog bilgisini geri dönüyorum
-        const newBlog = await Blog.create({
-            title,
-            content,
-            CategoryId: category.id,
-            UserId: req.auth.user.id,
-        });
+    // Kategori varsa blog ekliyorum ve son eklenen blog bilgisini geri dönüyorum
+    const newBlog = await Blog.create({
+      title,
+      content,
+      CategoryId: category.id,
+      UserId: req.auth.user.id,
+    });
 
-        return res.json({ status: true, message: 'Başarıyla oluşturuldu', data: newBlog });
-    } catch (error) {
-        return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
-    }
+    return res.json({ status: true, message: 'Başarıyla oluşturuldu', data: newBlog });
+  } catch (error) {
+    return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
+  }
+}
+
+const createComment = async (req, res) => {
+  const { id } = req.params;
+  const { content } = req.body;
+
+  try {
+    // Kategori kontrolü yapıyorum
+    const blogExists = await Blog.findByPk(id);
+
+    if (!blogExists) return res.status(404).json({ status: false, code: 4001, errors: [{ msg: 'Blog Bulunamadı' }] });
+
+    // Bulunan blog a yorum ekliyorum son oluşturulan yorumu geriye dönüyorum
+    const newComment = await Comment.create({
+      content,
+      BlogId: blogExists.id,
+      UserId: req.auth.user.id,
+    });
+
+    return res.json({ status: true, message: 'Başarıyla oluşturuldu', data: newComment });
+  } catch (error) {
+    return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
+  }
 }
 
 const update = async (req, res) => {
-    const { id } = req.params;
-    const { title, content } = req.body;
+  const { id } = req.params;
+  const { title, content } = req.body;
 
-    try {
-        // blogun var olup olmadığını kontrol ediyorum
-        const blogExists = await Blog.findByPk(id, {
-            include: Category,
-        });
+  try {
+    // blogun var olup olmadığını kontrol ediyorum ve güncelleme olduğu için kendi bloglarını güncelleyebilmeli sadece
+    const blogExists = await Blog.findOne({
+      where: {
+        id: id,
+        UserId: req.auth.user.id,
+      },
+    });
 
-        if (!blogExists) return res.status(404).json({ status: false, code: 3002, errors: [{ msg: 'Blog bulunamadı' }] });
+    if (!blogExists) return res.status(404).json({ status: false, code: 3002, errors: [{ msg: 'Blog bulunamadı' }] });
 
-        // Blog bilgilerini güncelliyorum eğer güncelleme bilgisi gönderildiyse
-        if (title) blogExists.title = title;
-        if (content) blogExists.content = content;
+    // Blog bilgilerini güncelliyorum eğer güncelleme bilgisi gönderildiyse
+    if (title) blogExists.title = title;
+    if (content) blogExists.content = content;
 
-        // Güncellenmiş blogu kaydediyorum
-        await blogExists.save();
-        return res.json({ status: true, message: 'Başarıyla güncellendi', data: blogExists });
+    // Güncellenmiş blogu kaydediyorum
+    await blogExists.save();
+    return res.json({ status: true, message: 'Başarıyla güncellendi', data: blogExists });
 
-    } catch (error) {
-        console.error('Hata:', error);
-        return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
-    }
+  } catch (error) {
+    console.error('Hata:', error);
+    return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
+  }
 
 }
 
 const del = async (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    try {
-        // blogun var olup olmadığını kontrol ediyorum
-        const blogExists = await Blog.findByPk(id);
+  try {
 
-        if (!blogExists) return res.status(404).json({ status: false, code: 3003, errors: [{ msg: 'Blog bulunamadı' }] });
+    // transaction başlatıyoruz birden fazla bağlantılı işlem yaptığımız için bir işlemde sorun olursa yapmasın istiyorum
+    await sequelize.transaction(async (t) => {
 
-        // Bulunan bloğu siliyorum soft-deletion ile.
-        await blogExists.destroy();
-        return res.json({ status: true, message: 'Başarıyla silindi' });
+      const blogExists = await Blog.findOne({
+        where: {
+          id: id,
+          UserId: req.auth.user.id,
+        },
+        transaction: t,
+      })
 
-    } catch (error) {
-        return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
-    }
+      if (!blogExists) return res.status(404).json({ status: false, code: 3003, errors: [{ msg: 'Blog bulunamadı' }] });
+
+      // Bloga ait tüm yorumları siliyorum.
+      await Comment.destroy({
+        where: {
+          BlogId: id,
+        },
+        transaction: t,
+      });
+
+      // Blogu silme işlemini yapıyoruz. Yukarıda user kontrolü yaptığımız için zadece id üzerinden silme işlemnini yapabiliriz.
+      await Blog.destroy({
+        where: {
+          id: blogExists.id
+        },
+        transaction: t
+      });
+    });
+
+    return res.json({ status: true, message: 'Başarıyla silindi' });
+
+  } catch (error) {
+    return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
+  }
 }
 
 module.exports = {
-    lists,
-    create,
-    update,
-    del
+  lists,
+  create,
+  createComment,
+  update,
+  del
 };

@@ -7,6 +7,9 @@ const SECRET_KEY = process.env.JWT_SECRET_KEY;
 */
 const User = require("./../../models").User;
 const Session = require("./../../models").Session;
+const Blog = require("./../../models").Blog;
+const Comment = require("./../../models").Comment;
+const { sequelize } = require("./../../models");
 
 const login = async (req, res) => {
     const { email, password, device, os } = req.body;
@@ -90,7 +93,7 @@ const register = async (req, res) => {
         // veritabanına kaydı atıyopruz
         await User.create(data)
             .then(function (user) {
-                res.json({ status: true, message: 'Kullanıcı başarıyla oluşturuldu.', user });
+                res.json({ status: true, message: 'Kullanıcı başarıyla oluşturuldu.' });
             }).catch(function (err) {
                 res.status(400).json({ status: false, code: 1005, errors: [{ msg: err }] });
             });
@@ -105,7 +108,49 @@ const update = async (req, res) => {
 }
 
 const del = async (req, res) => {
-    return res.json({ status: true, message: 'Delete Successful', auth: req.auth });
+    try {
+        // transaction başlatıyoruz birden fazla bağlantılı işlem yaptığımız için bir işlemde sorun olursa yapmasın istiyorum
+        await sequelize.transaction(async (t) => {
+
+            // Kullanıcıyı siliyorum (soft-deletion)
+            await User.destroy({
+                where: {
+                    id: req.auth.user.id,
+                },
+                transaction: t
+            });
+
+            // Kullanıcıya ait olan tüm sessionları siliyorum tamamen kaldırıyorum.
+            await Session.destroy({
+                where: {
+                    UserId: req.auth.user.id,
+                },
+                transaction: t
+            });
+
+            //  Kullanıcıya ait olan tüm blogları siliyorum (soft-deletion)
+            await Blog.destroy({
+                where: {
+                    UserId: req.auth.user.id,
+                },
+                transaction: t
+            });
+
+            // Kullanıcıya ait olan tüm yorumları siliyorum (soft-deletion)
+            await Comment.destroy({
+                where: {
+                    UserId: req.auth.user.id,
+                },
+                transaction: t,
+            });
+
+        });
+
+        return res.json({ status: true, message: 'Başarıyla silindi' });
+
+    } catch (error) {
+        return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
+    }
 }
 
 module.exports = {
