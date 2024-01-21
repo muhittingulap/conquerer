@@ -15,6 +15,15 @@ module.exports = {
       content: {
         type: Sequelize.TEXT
       },
+      CategoryId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Categories',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        allowNull: false,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {

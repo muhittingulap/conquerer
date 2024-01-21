@@ -58,7 +58,7 @@ const login = async (req, res) => {
             });
 
     } catch (error) {
-        res.status(500).json({ status: false, code: 9001, error });
+        res.status(500).json({ status: false, code: 9001, errors: [{ msg: error }] });
     }
 
 }

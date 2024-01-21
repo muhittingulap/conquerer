@@ -5,7 +5,7 @@ const userController = require("./../../../controllers/v1/userController");
 Middlewares
 */
 const auth = require("../../../middlewares/auth");
-const { error, errorWithAuth } = require("../../../middlewares/error");
+const { error } = require("../../../middlewares/error");
 
 /*
 Validators

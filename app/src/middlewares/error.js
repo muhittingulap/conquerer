@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const auth = require("../middlewares/auth");
 
-const handle = (req, res, next) => {
+const handle = (req, res,next) => {
     // express-validator'dan gelen hataları yazıyoruz
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -11,15 +11,9 @@ const handle = (req, res, next) => {
 }
 
 const error = (req, res, next) => {
-    handle(req, res, next);
-}
-
-const errorWithAuth = (req, res, next) => {
-    handle(req, res);
-    auth(req, res, next);
+    handle(req, res,next);
 }
 
 module.exports = {
-    error,
-    errorWithAuth
+    error
 }

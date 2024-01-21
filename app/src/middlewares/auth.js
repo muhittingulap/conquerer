@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
     try {
 
         jwt.verify(access_token, SECRET_KEY, (err, decoded) => {
-            if (err) return res.status(401).json({ status: false, errors: [{ msg: 'Token bilgisi geçersizz !' }] });
+            if (err) return res.status(401).json({ status: false, code: 9001, errors: [{ msg: 'Token bilgisi geçersiz !' }] });
 
             Session.findOne({
                 where: {
@@ -31,10 +31,10 @@ module.exports = async (req, res, next) => {
                     req.auth = session;
                     next();
                 } else {
-                    return res.status(401).json({ status: false, errors: [{ msg: 'Token bilgisi geçersizzz !' }] });
+                    return res.status(401).json({ status: false, code: 9002, errors: [{ msg: 'Token bilgisi geçersiz !' }] });
                 }
             }).catch((error) => {
-                return res.status(401).json({ status: false, errors: [{ msg: 'Token bilgisi geçersizzzzz !',error }] });
+                return res.status(401).json({ status: false, errors: [{ msg: error.message }] });
             });
         });
 

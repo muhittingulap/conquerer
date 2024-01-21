@@ -12,10 +12,6 @@ module.exports = {
       content: {
         type: Sequelize.TEXT
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       BlogId: {
         type: Sequelize.INTEGER,
         references: {
@@ -25,7 +21,24 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
       updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      deletedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
