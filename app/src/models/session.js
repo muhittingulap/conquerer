@@ -10,13 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Session.belongsTo(models.User, {foreignKey: 'UserId', as: 'user'})
     }
   }
   Session.init({
     token: DataTypes.STRING,
     device: DataTypes.STRING,
-    os: DataTypes.STRING
+    os: DataTypes.STRING,
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Session',

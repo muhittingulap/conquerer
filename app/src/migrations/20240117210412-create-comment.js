@@ -16,7 +16,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      blogId: {
+      BlogId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Blogs',

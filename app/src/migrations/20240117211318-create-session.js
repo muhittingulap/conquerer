@@ -13,16 +13,18 @@ module.exports = {
         type: Sequelize.STRING
       },
       device: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       os: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
-      userId: {
+      UserId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
@@ -30,6 +32,10 @@ module.exports = {
         },
         onDelete: 'CASCADE',
         allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
