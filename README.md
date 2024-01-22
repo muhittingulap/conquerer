@@ -4,12 +4,6 @@ RESTful API services with Node.js-Express and PostgreSQL
 # 1 - Project setup with docker
 Project installation steps with Docker
 
-```bash
-
-
-
-```
-
 ### Local mode
 
 ```bash
