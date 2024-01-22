@@ -11,6 +11,8 @@ const Blog = require("./../../models").Blog;
 const Comment = require("./../../models").Comment;
 const { sequelize } = require("./../../models");
 
+const { elasticClient } = require("./../../libs/elasticClient");
+
 const login = async (req, res) => {
     const { email, password, device, os } = req.body;
 
@@ -154,7 +156,43 @@ const del = async (req, res) => {
 }
 
 const stats = async (req, res) => {
-    return res.json({ status: true, message: 'stats elasticSearch' });
+
+    // postu olan kullanıcı sayısını buluyorum
+    const responsePost = await elasticClient.search({
+        index: 'posts',
+        body: {
+            size: 0,
+            aggs: {
+                posts: {
+                    filter: {
+                        exists: {
+                            field: 'profile.username.keyword'
+                        }
+                    },
+                    aggs: {
+                        blogger: {
+                            cardinality: {
+                                field: 'profile.username.keyword'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // kullanıcı totalini buluyorum
+    const responseUser = await elasticClient.search({
+        index: 'users'
+    });
+
+    const total = responseUser.hits.total.value;
+    const data = {
+        total,
+        blogger: responsePost.aggregations.posts.blogger.value,
+        reader: total - responsePost.aggregations.posts.blogger.value // toplam kullanıcı sayısından postu olan kullanıcı sayısını çıkarıp sadece okuyucularu buluyorum
+    }
+    return res.json({ status: true, message: 'User Stats ElasticSearch Successfuly', data });
 }
 
 module.exports = {
