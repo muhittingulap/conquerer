@@ -27,7 +27,20 @@ const registerValidator = [
     body('confirmPassword').notEmpty().isLength({ min: 8 }).withMessage('Şifre Tekrarı en az 8 karakter olmalı'),
 ]
 
+const updateValidator = [
+    // express-validator ile gelen veriyi doğrulama
+    body('password').optional().isStrongPassword({
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1
+    }).withMessage('Şifre en az 8 karakter uzunluğunda ve özel karakter, Büyük küçük harf içermelidir'),
+    body('confirmPassword').optional().isLength({ min: 8 }).withMessage('Şifre Tekrarı en az 8 karakter olmalı'),
+]
+
 module.exports = {
     loginValidator,
-    registerValidator
+    registerValidator,
+    updateValidator
 }

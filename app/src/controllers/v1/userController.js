@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require("bcryptjs");
+const { body, validationResult } = require('express-validator');
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 /*
@@ -12,6 +13,8 @@ const Comment = require("./../../models").Comment;
 const { sequelize } = require("./../../models");
 
 const { elasticClient } = require("./../../libs/elasticClient");
+
+const { generateUsername } = require("./../../helpers");
 
 const login = async (req, res) => {
     const { email, password, device, os } = req.body;
@@ -82,10 +85,11 @@ const register = async (req, res) => {
 
         // Parolayı veritabanında şifreli bir şekilde tutuyorum
         const passwordHash = await bcryptjs.hash(password, 10);
+        const username = await generateUsername(full_name);
 
         // data modellemesini yapıyorum
         const data = {
-            username: full_name,
+            username,
             full_name,
             email,
             password: passwordHash,
@@ -106,7 +110,46 @@ const register = async (req, res) => {
 }
 
 const update = async (req, res) => {
-    return res.json({ status: true, message: 'Update Successful', auth: req.auth });
+    const id = req.auth.user.id;
+    const { full_name, password, confirmPassword, birthday } = req.body;
+
+    try {
+
+        let data = {};
+
+        // İlgili veriler gönderildiyse güncelleme için topluyorum
+        if (full_name) data.full_name = full_name;
+        if (birthday) data.birthday = birthday;
+
+        // password varsa confirmpassword de olmalı ve ikisi birbirine eşit olmu kontrolleriniyapıyorum
+        if (password) {
+            if (password != confirmPassword) return res.status(400).json({ status: false, code: 3002, errors: [{ msg: 'Şifreler uyuşmuyor.' }] });
+            data.password = await bcryptjs.hash(password, 10);
+        }
+
+        // kullanıcıyı güncelliyorum
+        await User.update(data, {
+            where: { id: id },
+        });
+
+        // şifre değiştirildi ise tüm oturumları geçersiz kılıyorum.
+        if (data.password) {
+            await Session.update({ status: false },
+                {
+                    where: {
+                        UserId: id,
+                    }
+                }).catch(function (err) {
+                    res.status(400).json({ status: false, code: 2004, errors: [{ msg: err }] });
+                });
+        }
+
+        return res.json({ status: true, message: 'Başarıyla güncellendi.' });
+
+    } catch (error) {
+        console.error('Hata:', error);
+        return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
+    }
 }
 
 const del = async (req, res) => {

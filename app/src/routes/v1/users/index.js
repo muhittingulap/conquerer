@@ -12,7 +12,8 @@ Validators
 */
 const {
     loginValidator,
-    registerValidator
+    registerValidator,
+    updateValidator
 } = require("../../../validators/users");
 
 
@@ -23,7 +24,7 @@ users.post("/login", loginValidator, error, userController.login);
 users.post("/register", registerValidator, error, userController.register);
 
 // auth
-users.put("/", auth, userController.update);
+users.put("/", auth,updateValidator, error, userController.update);
 users.delete("/", auth, userController.del);
 
 module.exports = users;
