@@ -21,7 +21,7 @@ const lists = async (req, res) => {
               include: [
                 {
                   model: Category,
-                  as: 'Category',
+                  as: 'categories',
                   attributes: ['name']
                 },
               ]

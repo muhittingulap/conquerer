@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require("bcryptjs");
-const { body, validationResult } = require('express-validator');
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 /*
