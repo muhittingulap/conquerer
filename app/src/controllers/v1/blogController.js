@@ -16,20 +16,26 @@ const lists = async (req, res) => {
         {
           model: Comment,
           as: 'comments',
+          attributes: ['content', 'createdAt'],
+          
           include: [
             {
               model: User,
-              as: 'User',
+              as: 'user',
               attributes: ['full_name']
             },
           ],
         },
         {
           model: User,
-          as: 'User',
+          as: 'user',
           attributes: ['full_name']
         },
       ],
+      order: [ 
+        ['createdAt', 'DESC'],
+        [ { model: Comment,as: 'comments'}, 'updatedAt', 'DESC' ]
+       ],
     });
 
     return res.json({ status: true, message: 'Başarıyla listelendi', data: blogLists });
@@ -156,10 +162,16 @@ const del = async (req, res) => {
   }
 }
 
+
+const postByTime = async (req, res) => {
+  return res.json({ status: true, message: 'postByTime elasticSearch' });
+}
+
 module.exports = {
   lists,
   create,
   createComment,
   update,
-  del
+  del,
+  postByTime
 };

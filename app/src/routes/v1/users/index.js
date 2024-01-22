@@ -17,6 +17,8 @@ const {
 
 
 // no auth
+users.get("/stats", userController.stats);
+
 users.post("/login", loginValidator, error, userController.login);
 users.post("/register", registerValidator, error, userController.register);
 

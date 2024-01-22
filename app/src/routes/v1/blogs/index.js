@@ -16,6 +16,9 @@ const {
     updateValidator
 } = require("../../../validators/blogs");
 
+// no auth
+blogs.get("/post-by-time", blogController.postByTime);
+
 // auth
 blogs.get("/", auth, blogController.lists);
 blogs.post("/", createValidator, error, auth, blogController.create);

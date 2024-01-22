@@ -12,6 +12,11 @@ const lists = async (req, res) => {
     }
 }
 
+const rates = async (req, res) => {
+    return res.json({ status: true, message: 'rates elasticSearch' });
+}
+
 module.exports = {
-    lists
+    lists,
+    rates
 };

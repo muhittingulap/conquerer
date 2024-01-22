@@ -153,9 +153,14 @@ const del = async (req, res) => {
     }
 }
 
+const stats = async (req, res) => {
+    return res.json({ status: true, message: 'stats elasticSearch' });
+}
+
 module.exports = {
     login,
     register,
     del,
-    update
+    update,
+    stats
 };

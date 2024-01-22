@@ -12,10 +12,12 @@ const lists = async (req, res) => {
           where: {
             UserId: req.auth.user.id,
           },
+          order: [['createdAt', 'DESC']],
           include: [
             {
               model: Blog,
               as: 'blogs',
+              order: [['createdAt', 'DESC']],
               include: [
                 {
                   model: Category,
