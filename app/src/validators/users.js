@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
 
 const loginValidator = [
-    // express-validator ile gelen veriyi doğrulama
+    // express-validator ile gelen veriyi doğrulama yapıyorum
     body('email').notEmpty().isEmail().withMessage('Geçerli bir e-posta adresi girin'),
     body('password').notEmpty().isStrongPassword({
         minLength: 8,
@@ -13,7 +13,7 @@ const loginValidator = [
 ]
 
 const registerValidator = [
-    // express-validator ile gelen veriyi doğrulama
+    // express-validator ile gelen veriyi doğrulama yapıyorum
     body('full_name').notEmpty().withMessage('Lütfen ad soyad bilgisini boş bırakmayın'),
     body('birthday').notEmpty().withMessage('Lütfen doğum gününüzü boş bırakmayın'),
     body('email').notEmpty().isEmail().withMessage('Geçerli bir e-posta adresi girin'),
@@ -28,7 +28,7 @@ const registerValidator = [
 ]
 
 const updateValidator = [
-    // express-validator ile gelen veriyi doğrulama
+    // express-validator ile gelen veriyi doğrulama yapıyorum
     body('password').optional().isStrongPassword({
         minLength: 8,
         minLowercase: 1,

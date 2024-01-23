@@ -29,7 +29,7 @@ const lists = async (req, res) => {
         {
           model: Comment,
           as: 'comments',
-          attributes: ['content', 'createdAt'],
+          attributes: ['id','content', 'createdAt'],
           include: [
             {
               model: User,
@@ -46,7 +46,7 @@ const lists = async (req, res) => {
         {
           model: Category,
           as: 'categories',
-          attributes: ['name']
+          attributes: ['id','name']
         },
       ],
       order: [
