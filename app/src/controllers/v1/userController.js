@@ -126,6 +126,9 @@ const update = async (req, res) => {
             data.password = await bcryptjs.hash(password, 10);
         }
 
+        // eğer hiç data gönderilmediyse güncellenecek veri olmadığından veritabanı işlemlerinin yapılmamasını sağlıyorum
+        if(Object.keys(data).length === 0) return res.status(400).json({ status: false, code: 3003, errors: [{ msg: 'Güncellenebilecek bir alan göndermediniz.' }] });
+
         // kullanıcıyı güncelliyorum
         await User.update(data, {
             where: { id: id },
