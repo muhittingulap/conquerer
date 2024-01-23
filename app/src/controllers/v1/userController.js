@@ -127,7 +127,7 @@ const update = async (req, res) => {
         }
 
         // eğer hiç data gönderilmediyse güncellenecek veri olmadığından veritabanı işlemlerinin yapılmamasını sağlıyorum
-        if(Object.keys(data).length === 0) return res.status(400).json({ status: false, code: 3003, errors: [{ msg: 'Güncellenebilecek bir alan göndermediniz.' }] });
+        if (Object.keys(data).length === 0) return res.status(400).json({ status: false, code: 3003, errors: [{ msg: 'Güncellenebilecek bir alan göndermediniz.' }] });
 
         // kullanıcıyı güncelliyorum
         await User.update(data, {
@@ -191,9 +191,9 @@ const del = async (req, res) => {
                 transaction: t,
             });
 
+            return res.json({ status: true, message: 'Başarıyla silindi' });
         });
 
-        return res.json({ status: true, message: 'Başarıyla silindi' });
 
     } catch (error) {
         return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
