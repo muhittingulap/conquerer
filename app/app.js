@@ -24,7 +24,7 @@ app.use(urlencoded({ extended: true, limit: '50mb' }));
 app.use("/", router);
 
 app.all("*", function (req, res) {
-  res.json({ message: 'Conquerer API System Endpoints' });
+  res.json({ status: true, version: 'v1.0', lastUpdateAt: '2024-01-23 12:40:00', message: 'Conquerer API System Endpoints Successfuly' });
 });
 
 const PORT = process.env.NODE_PORT;
