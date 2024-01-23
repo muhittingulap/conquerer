@@ -11,13 +11,13 @@ const { Op } = require('sequelize');
 const { elasticClient } = require("./../../libs/elasticClient");
 
 const lists = async (req, res) => {
-  const { type, categoryId, title } = req.query;
-  console.log("asd", type, categoryId);
+  const { type = 'myposts', categoryId, title } = req.query;
+  
   try {
     const wh = {};
 
     // eğer last gelirde type da tüm bloglar listelenir. ama gelmezse my blogs lar olur
-    if (type != 'last') wh.UserId = req.auth.user.id;
+    if (type != 'lastposts') wh.UserId = req.auth.user.id;
 
     if (categoryId) wh.CategoryId = categoryId;
     if (title) wh.title = { [Op.iLike]: '%' + title + '%' };
@@ -180,7 +180,7 @@ const del = async (req, res) => {
 
 
 const postByTime = async (req, res) => {
-  
+
   const response = await elasticClient.search({
     index: 'posts',
     body: {
@@ -220,7 +220,7 @@ const postByTime = async (req, res) => {
   });
 
   const data = response.aggregations.categories.buckets;
-  
+
   return res.json({ status: true, message: 'User Stats ElasticSearch Successfuly', data });
 }
 
