@@ -12,7 +12,7 @@ const { elasticClient } = require("./../../libs/elasticClient");
 
 const lists = async (req, res) => {
   const { type = 'myposts', categoryId, title } = req.query;
-  
+
   try {
     const wh = {};
 
@@ -24,12 +24,12 @@ const lists = async (req, res) => {
 
     const blogLists = await Blog.findAll({
       where: wh,
-      attributes: ['id','title','content', 'createdAt'],
+      attributes: ['id', 'title', 'content', 'createdAt'],
       include: [
         {
           model: Comment,
           as: 'comments',
-          attributes: ['id','content', 'createdAt'],
+          attributes: ['id', 'content', 'createdAt'],
           include: [
             {
               model: User,
@@ -46,7 +46,7 @@ const lists = async (req, res) => {
         {
           model: Category,
           as: 'categories',
-          attributes: ['id','name']
+          attributes: ['id', 'name']
         },
       ],
       order: [
@@ -143,7 +143,7 @@ const del = async (req, res) => {
   try {
 
     // transaction başlatıyoruz birden fazla bağlantılı işlem yaptığımız için bir işlemde sorun olursa yapmasın istiyorum
-     await sequelize.transaction(async (t) => {
+    await sequelize.transaction(async (t) => {
 
       const blogExists = await Blog.findOne({
         where: {
@@ -157,7 +157,7 @@ const del = async (req, res) => {
 
       // Bloga ait tüm yorumları siliyorum.
       await Comment.destroy({
-        return:false,
+        return: false,
         where: {
           BlogId: id,
         },
@@ -166,15 +166,15 @@ const del = async (req, res) => {
 
       // Blogu silme işlemini yapıyoruz. Yukarıda user kontrolü yaptığımız için zadece id üzerinden silme işlemnini yapabiliriz.
       await Blog.destroy({
-        return:false,
+        return: false,
         where: {
           id: blogExists.id
         },
         transaction: t
       });
-    });
 
-    return res.json({ status: true, message: 'Başarıyla silindi' });
+      return res.json({ status: true, message: 'Başarıyla silindi' });
+    });
 
   } catch (error) {
     return res.status(500).json({ status: false, errors: [{ msg: error.message }] });
