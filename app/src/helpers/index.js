@@ -16,6 +16,7 @@ const checkIfUsernameExists = async (username) => {
             where: {
                 username: username,
             },
+            paranoid: false // silinmiş kullanıcılarında username kontrolünü yapmam gerektiği için ekledim
         });
 
         return userExists !== null;
