@@ -222,7 +222,7 @@ const postByTime = async (req, res) => {
 
   const data = response.aggregations.categories.buckets;
 
-  return res.json({ status: true, message: 'User Stats ElasticSearch Successfuly', data });
+  return res.json({ status: true, message: 'Post By Time ElasticSearch Successfuly', data });
 }
 
 module.exports = {
