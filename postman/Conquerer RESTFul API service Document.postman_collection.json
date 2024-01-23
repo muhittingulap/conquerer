@@ -1,0 +1,524 @@
+{
+	"info": {
+		"_postman_id": "e4dbeb30-1876-4b31-a67b-7ed410c8e291",
+		"name": "Conquerer RESTFul API service Document",
+		"description": "Bu RESTFul API servisi kullanıcıların blog yazıları oluşturmasına ve başkalarının yazılarını okuyup yorum yapmasına olanak tanıyacaktır.\n\nJWT Auth sistemini kullanır.\n\nVersion : 1.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9220362",
+		"_collection_link": "https://solar-shadow-155207.postman.co/workspace/766e0838-cd28-4279-a48c-142175109467/collection/9220362-e4dbeb30-1876-4b31-a67b-7ed410c8e291?action=share&source=collection_link&creator=9220362"
+	},
+	"item": [
+		{
+			"name": "v1/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						""
+					]
+				},
+				"description": "Bu api servisi ile servise erişim olup olmaığını anlayabilirsiniz. Api servisinden dönen bilgilerde versiyon, son güncelleme bilgilerine erişebilrsiniz.\n\nHerhangi bir parametre göndermeden doğrudan istek göndererek sonuç alabilirsiniz.\n\n**Response:**\n\n``` json\n{\n    \"status\": true,\n    \"version\": \"v1.0\",\n    \"lastUpdateAt\": \"2024-01-23 12:40:00\",\n    \"message\": \"Conquerer API System Endpoints Successfuly\"\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/users/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"full_name\" : \"Muhittin GÜLAP\",\n    \"email\" : \"gulapmuhittin@gmail.com\",\n    \"password\" : \"12Ab345678@\",\n    \"confirmPassword\" : \"12Ab345678@\",\n    \"birthday\" : \"1995-07-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/users/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"register"
+					]
+				},
+				"description": "Bu api servisi ile yeni kullanıcı kayıt işlemini gerçekleştirebilirsiniz.  \n**  \nBody Params:**\n\n| Parametre | Zorunlu | Açıklama |\n| --- | --- | --- |\n| **full_name** | evet | Kullanıcı ad soyad bilgisidir. |\n| **email** | evet | Kullanıcı email bilgisidir. Email geçerliliği kontrol edilir. |\n| **password** | evet | Kullanıcı şifresidir. En az 1 tane Büyük, 1 tane küçük harf ve özel karakter ve rakamlardan oluşan bir şifre belirlenmelidir. |\n| **confirmPassword** | evet | Şifre onay bilgisidir. password parametresi ile aynı olması gerekir. |\n| **birthday** | evet | Kullanıcı doğum tarihidir. Örnek : 1995-07-01 |\n\n**Request :**\n\n``` json\n{\n    \"full_name\" : \"Muhittin GÜLAP\",\n    \"email\" : \"gulapmuhittin@gmail.com\",\n    \"password\" : \"12Ab345678@\",\n    \"confirmPassword\" : \"12Ab345678@\",\n    \"birthday\" : \"1995-07-01\"\n}\n\n ```\n\n**Response:**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Kullanıcı başarıyla oluşturuldu.\"\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/users/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"gulapmuhittin@gmail.com\",\n    \"password\": \"12Ab345678@\",\n    \"device\" : \"macbook\",\n    \"os\" : \"ios\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/users/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"login"
+					]
+				},
+				"description": "Bu api servisi ile kullanıcı girişi yaparak JWT token alabilirsiniz.  \n  \n**Body Params:**\n\n| Parametre | Zorunlu | Açıklama |\n| --- | --- | --- |\n| **full_name** | evet | Kullanıcı ad soyad bilgisidir. |\n| **email** | evet | Kullanıcı email bilgisidir. Email geçerliliği kontrol edilir. |\n| **password** | evet | Kullanıcı şifresidir. En az 1 tane Büyük, 1 tane küçük harf ve özel karakter ve rakamlardan oluşan bir şifre belirlenmelidir. |\n| **confirmPassword** | evet | Şifre onay bilgisidir. password parametresi ile aynı olması gerekir. |\n| **birthday** | evet | Kullanıcı doğum tarihidir. Örnek : 1995-07-01 |\n\n**Request :**\n\n``` json\n{\n    \"email\" : \"gulapmuhittin@gmail.com\",\n    \"password\" : \"12Ab345678@\",\n    \"device\" : \"macbook\",\n    \"os\" : \"ios\"\n}\n\n ```\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Giriş başarılı\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imd1bGFwbXVoaXR0aW5AZ21haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyNC0wMS0yM1QxMDoyMDowOS44MDhaIiwiaWF0IjoxNzA2MDA1MjA5LCJleHAiOjE3MDYwMDg4MDl9.50lV3H5wY5IJKLbdjbfvnzm73npBP4ONNhRndApY6j8\"\n    }\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"full_name\" : \"Muhittin GÜLAP\",\n    \"password\" : \"12Ab345678@\",\n    \"confirmPassword\" : \"12Ab345678@\",\n    \"birthday\" : \"1995-07-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"users"
+					]
+				},
+				"description": "Bu api servisi ile kullanıcı bilgilerini güncelleyebilirsiniz.  \nBearer token ile çalışmaktadır. Login sonrası alınan token, brearer token olarak gönderilmelidir.  \nPassword alanı güncellenirse kullanıcının tüm oturumları sonlandırılır.  \n  \n**Body Params:**\n\n| Parametre | Zorunlu | Açıklama |\n| --- | --- | --- |\n| **full_name** | opsiyonel | Kullanıcı ad soyad bilgisidir. |\n| **password** | opsiyonel | Kullanıcı şifresidir. En az 1 tane Büyük, 1 tane küçük harf ve özel karakter ve rakamlardan oluşan bir şifre belirlenmelidir. |\n| **confirmPassword** | Password gönderilirse evet | Şifre onay bilgisidir. password parametresi ile aynı olması gerekir. |\n| **birthday** | opsiyonel | Kullanıcı doğum tarihidir. Örnek : 1995-07-01 |\n\n**Request :**\n\n``` json\n{\n    \"full_name\" : \"Muhittin GÜLAP\",\n    \"password\" : \"12Ab345678@\",\n    \"confirmPassword\" : \"5678@12Ab34\",\n    \"birthday\" : \"1995-07-02\"\n}\n\n ```\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla güncellendi.\"\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"users"
+					]
+				},
+				"description": "Bu api servisi ile kullanıcı hesabı silme işlemi yapabilirsiniz. Soft-Deletion yönetimi kullanılır.\n\n**Response:**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla silindi\"\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/categories",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/categories",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"categories"
+					]
+				},
+				"description": "Bu api servisi ile blogların kategorilerini öğrenebilirsiniz.  \n**Response:**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Lists Successful\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Artificial Intelligence\",\n            \"createdAt\": \"2024-01-23T10:39:16.138Z\",\n            \"updatedAt\": \"2024-01-23T10:39:16.138Z\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Business\",\n            \"createdAt\": \"2024-01-23T10:39:16.138Z\",\n            \"updatedAt\": \"2024-01-23T10:39:16.138Z\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Money\",\n            \"createdAt\": \"2024-01-23T10:39:16.138Z\",\n            \"updatedAt\": \"2024-01-23T10:39:16.138Z\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Technology\",\n            \"createdAt\": \"2024-01-23T10:39:16.138Z\",\n            \"updatedAt\": \"2024-01-23T10:39:16.138Z\"\n        }\n    ]\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/blogs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/blogs?type=myposts&title=baş",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"blogs"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "myposts"
+						},
+						{
+							"key": "title",
+							"value": "baş"
+						}
+					]
+				},
+				"description": "Bu api servisi ile blogları çekebilirsiniz. JWT token ile çalışmaktadır. Query parametreleri ile geri dönüş listesini istediğiniz gibi şekillendirebilirsiniz.\n\n**Query Params :**\n\n| Parametre | Zorunlu | Açıklama |\n| --- | --- | --- |\n| **type** | opsiyonel | **myposts** ve **lastposts** şeklinde iki value değeri alır. ve ona göre değerleri döner. boş gönderildiğinde default olarak **myposts** değeri alınmıştır. |\n| **categoryId** | opsiyonel | İlgili kategori deki blogları listelemenizi sağlar. |\n| **title** | opsiyonel | Başlık ile arama yapmanızı sağlar. İçeren değerleri arar. Bu parametre **type** ve **categoryId** parametlerinden etkilenir. O filtreleri önceliklendirir. |\n| **birthday** | opsiyonel | Kullanıcı doğum tarihidir. Örnek : 1995-07-01 |\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla listelendi\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"title\": \"Başlık 4\",\n            \"content\": \"content 4\",\n            \"createdAt\": \"2024-01-23T10:48:14.434Z\",\n            \"comments\": [\n                {\n                    \"id\": 1,\n                    \"content\": \"yorum content tes\",\n                    \"createdAt\": \"2024-01-23T10:48:53.604Z\",\n                    \"user\": {\n                        \"full_name\": \"Muhittin GÜLAP\"\n                    }\n                }\n            ],\n            \"user\": {\n                \"full_name\": \"Muhittin GÜLAP\"\n            },\n            \"categories\": {\n                \"id\": 2,\n                \"name\": \"Business\"\n            }\n        }\n    ]\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/blogs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"category_id\": 2,\n    \"title\": \"Başlık 4\",\n    \"content\": \"content 4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/blogs",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"blogs"
+					]
+				},
+				"description": "Bu api servisi ile yeni blog yazısı oluşturabilirsiniz. JWT token ile çalışmaktadır.  \n  \n**Body Params:**\n\n| Parametre | Zorunlu | Açıklama |\n| --- | --- | --- |\n| **category_id** | evet | Kategori id sidir. Kategori kontrolü yapılır |\n| **title** | evet | Başlık bilgisidir. |\n| **content** | evet | İçerik bilgisidir. |\n\n**Request :**\n\n``` json\n{\n    \"category_id\": 2,\n    \"title\": \"Başlık\",\n    \"content\": \"İçerik\"\n}\n\n ```\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla oluşturuldu\",\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"Başlık\",\n        \"content\": \"İçerik\",\n        \"CategoryId\": 2,\n        \"UserId\": 2,\n        \"updatedAt\": \"2024-01-23T10:48:14.434Z\",\n        \"createdAt\": \"2024-01-23T10:48:14.434Z\",\n        \"deletedAt\": null\n    }\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/blogs/:id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Başlık 2 güncellendi\",\n    \"content\": \"content 2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/blogs/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"blogs",
+						"1"
+					]
+				},
+				"description": "Bu api servisi ile ilgili blog yazısını güncelleyebilirsiniz. JWT token ile çalışmaktadır.\n\n**Body Params:**\n\n| Parametre | Zorunlu | Açıklama |\n| --- | --- | --- |\n| **title** | evet | Başlık bilgisidir. |\n| **content** | evet | İçerik bilgisidir. |\n\n**Request :**\n\n``` json\n{\n    \"title\": \"Başlık 2 güncellendi\",\n    \"content\": \"content 2\"\n}\n\n ```\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla güncellendi\",\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"Başlık 2 güncellendi\",\n        \"content\": \"content 2\",\n        \"createdAt\": \"2024-01-23T10:48:14.434Z\",\n        \"updatedAt\": \"2024-01-23T11:03:33.806Z\",\n        \"deletedAt\": null,\n        \"UserId\": 2,\n        \"CategoryId\": 2\n    }\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/blogs/:id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/blogs/4",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"blogs",
+						"4"
+					]
+				},
+				"description": "Bu api servisi ile ilgili blog yazısını silebilirsiniz. Soft-Deletion yöntemini kullanır.\n\n**Response:**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla silindi\"\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/blog/:id/comments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"yorum content tes\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/blogs/1/comments",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"blogs",
+						"1",
+						"comments"
+					]
+				},
+				"description": "Bu api servisi ile ilgili blog yazısıına yorum yazabilirsiniz.\n\n**Body Params:**\n\n| Parametre | Zorunlu | Açıklama |\n| --- | --- | --- |\n| **content** | evet | Yorum içerik bilgisidir. |\n\n**Request :**\n\n``` json\n{\n    \"content\": \"yorum content tes\"\n}\n\n ```\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla oluşturuldu\",\n    \"data\": {\n        \"id\": 2,\n        \"content\": \"yorum content tes\",\n        \"BlogId\": 1,\n        \"UserId\": 2,\n        \"updatedAt\": \"2024-01-23T11:07:29.358Z\",\n        \"createdAt\": \"2024-01-23T11:07:29.358Z\",\n        \"deletedAt\": null\n    }\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/comments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/comments",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"comments"
+					]
+				},
+				"description": "Bu api servisi ile JWT token sahibi kullanıcının yapmış olduğu tüm yorumları yeniden eskiye olacak sekilde ve hangi blog yazısına ait olduğunuda listeleyebilirsiniz.  \n  \n**Response:**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla listelendi\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"content\": \"yorum content tes\",\n            \"createdAt\": \"2024-01-23T11:07:29.358Z\",\n            \"updatedAt\": \"2024-01-23T11:07:29.358Z\",\n            \"deletedAt\": null,\n            \"BlogId\": 1,\n            \"UserId\": 2,\n            \"blogs\": {\n                \"id\": 1,\n                \"title\": \"Başlık 2 güncellendi\",\n                \"content\": \"content 2\",\n                \"createdAt\": \"2024-01-23T10:48:14.434Z\",\n                \"updatedAt\": \"2024-01-23T11:03:33.806Z\",\n                \"deletedAt\": null,\n                \"UserId\": 2,\n                \"CategoryId\": 2,\n                \"categories\": {\n                    \"name\": \"Business\"\n                }\n            }\n        }\n    ]\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/comments/:id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/comments/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"comments",
+						"1"
+					]
+				},
+				"description": "Bu api servisi ile ilgili yorumu silebilirsiniz. Soft-Deletion özelliği kullanılır.\n\n**Response:**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Başarıyla silindi\"\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/users/stats",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/users/stats",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"stats"
+					]
+				},
+				"description": "Bu api servisi ile elasticsearch üzerinden user-post istatistik bilgilerini alabilirsiniz.\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Stats ElasticSearch Successfuly\",\n    \"data\": {\n        \"total\": 425,\n        \"blogger\": 214,\n        \"reader\": 211\n    }\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/categories/rates",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/categories/rates",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"categories",
+						"rates"
+					]
+				},
+				"description": "Bu api servisi ile elasticsearch üzerinden category-rates istatistik bilgilerini alabilirsiniz. Yüzdelik dilimlerini öğrenebilirsiniz.\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Category Rates ElasticSearch Successfuly\",\n    \"data\": [\n        {\n            \"key\": \"Money\",\n            \"doc_count\": 238,\n            \"percent\": \"&.4\"\n        },\n        {\n            \"key\": \"Technology\",\n            \"doc_count\": 224,\n            \"percent\": \"$.9\"\n        },\n        {\n            \"key\": \"Business\",\n            \"doc_count\": 223,\n            \"percent\": \"$.8\"\n        },\n        {\n            \"key\": \"Artificial Intelligence\",\n            \"doc_count\": 215,\n            \"percent\": \"#.9\"\n        }\n    ]\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "v1/blogs/post-by-time",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/blogs/post-by-time",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"blogs",
+						"post-by-time"
+					]
+				},
+				"description": "Bu api servisi ile elasticsearch üzerinden category-rates istatistik bilgilerini alabilirsiniz. Yüzdelik dilimlerini öğrenebilirsiniz.\n\n**Response :**\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Post By Time ElasticSearch Successfuly\",\n    \"data\": [\n        {\n            \"key\": \"Money\",\n            \"doc_count\": 238,\n            \"by_week\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-06\",\n                        \"key\": 1578268800000,\n                        \"doc_count\": 4\n                    },\n                    {\n                        \"key_as_string\": \"2020-01-13\",\n                        \"key\": 1578873600000,\n                        \"doc_count\": 1\n                    },\n                    {\n                        \"key_as_string\": \"2020-01-20\",\n                        \"key\": 1579478400000,\n                        \"doc_count\": 1\n                    }\n                ]\n            },\n            \"by_year\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 63\n                    },\n                    {\n                        \"key_as_string\": \"2021-01-01\",\n                        \"key\": 1609459200000,\n                        \"doc_count\": 66\n                    },\n                    {\n                        \"key_as_string\": \"2022-01-01\",\n                        \"key\": 1640995200000,\n                        \"doc_count\": 67\n                    },\n                    {\n                        \"key_as_string\": \"2023-01-01\",\n                        \"key\": 1672531200000,\n                        \"doc_count\": 42\n                    }\n                ]\n            },\n            \"by_month\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 6\n                    },\n                    {\n                        \"key_as_string\": \"2020-02-01\",\n                        \"key\": 1580515200000,\n                        \"doc_count\": 4\n                    }\n                ]\n            }\n        },\n        {\n            \"key\": \"Technology\",\n            \"doc_count\": 224,\n            \"by_week\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-20\",\n                        \"key\": 1579478400000,\n                        \"doc_count\": 3\n                    },\n                    {\n                        \"key_as_string\": \"2020-01-27\",\n                        \"key\": 1580083200000,\n                        \"doc_count\": 1\n                    },\n                    {\n                        \"key_as_string\": \"2020-02-03\",\n                        \"key\": 1580688000000,\n                        \"doc_count\": 0\n                    }\n                ]\n            },\n            \"by_year\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 51\n                    },\n                    {\n                        \"key_as_string\": \"2021-01-01\",\n                        \"key\": 1609459200000,\n                        \"doc_count\": 50\n                    },\n                    {\n                        \"key_as_string\": \"2022-01-01\",\n                        \"key\": 1640995200000,\n                        \"doc_count\": 68\n                    },\n                    {\n                        \"key_as_string\": \"2023-01-01\",\n                        \"key\": 1672531200000,\n                        \"doc_count\": 55\n                    }\n                ]\n            },\n            \"by_month\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 4\n                    },\n                    {\n                        \"key_as_string\": \"2020-02-01\",\n                        \"key\": 1580515200000,\n                        \"doc_count\": 4\n                    }\n                ]\n            }\n        },\n        {\n            \"key\": \"Business\",\n            \"doc_count\": 223,\n            \"by_week\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-06\",\n                        \"key\": 1578268800000,\n                        \"doc_count\": 2\n                    },\n                    {\n                        \"key_as_string\": \"2020-01-13\",\n                        \"key\": 1578873600000,\n                        \"doc_count\": 1\n                    },\n                    {\n                        \"key_as_string\": \"2020-01-20\",\n                        \"key\": 1579478400000,\n                        \"doc_count\": 3\n                    }\n                ]\n            },\n            \"by_year\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 57\n                    },\n                    {\n                        \"key_as_string\": \"2021-01-01\",\n                        \"key\": 1609459200000,\n                        \"doc_count\": 80\n                    },\n                    {\n                        \"key_as_string\": \"2022-01-01\",\n                        \"key\": 1640995200000,\n                        \"doc_count\": 50\n                    },\n                    {\n                        \"key_as_string\": \"2023-01-01\",\n                        \"key\": 1672531200000,\n                        \"doc_count\": 36\n                    }\n                ]\n            },\n            \"by_month\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 6\n                    },\n                    {\n                        \"key_as_string\": \"2020-02-01\",\n                        \"key\": 1580515200000,\n                        \"doc_count\": 6\n                    }\n                ]\n            }\n        },\n        {\n            \"key\": \"Artificial Intelligence\",\n            \"doc_count\": 215,\n            \"by_week\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2019-12-30\",\n                        \"key\": 1577664000000,\n                        \"doc_count\": 1\n                    },\n                    {\n                        \"key_as_string\": \"2020-01-06\",\n                        \"key\": 1578268800000,\n                        \"doc_count\": 2\n                    },\n                    {\n                        \"key_as_string\": \"2020-01-13\",\n                        \"key\": 1578873600000,\n                        \"doc_count\": 0\n                    }\n                ]\n            },\n            \"by_year\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 60\n                    },\n                    {\n                        \"key_as_string\": \"2021-01-01\",\n                        \"key\": 1609459200000,\n                        \"doc_count\": 55\n                    },\n                    {\n                        \"key_as_string\": \"2022-01-01\",\n                        \"key\": 1640995200000,\n                        \"doc_count\": 64\n                    },\n                    {\n                        \"key_as_string\": \"2023-01-01\",\n                        \"key\": 1672531200000,\n                        \"doc_count\": 36\n                    }\n                ]\n            },\n            \"by_month\": {\n                \"buckets\": [\n                    {\n                        \"key_as_string\": \"2020-01-01\",\n                        \"key\": 1577836800000,\n                        \"doc_count\": 4\n                    },\n                    {\n                        \"key_as_string\": \"2020-02-01\",\n                        \"key\": 1580515200000,\n                        \"doc_count\": 6\n                    },\n                    {\n                        \"key_as_string\": \"2020-03-01\",\n                        \"key\": 1583020800000,\n                        \"doc_count\": 8\n                    }\n                ]\n            }\n        }\n    ]\n}\n\n ```"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost",
+			"type": "string"
+		},
+		{
+			"key": "bearerToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imd1bGFwbXVoaXR0aW5AZ21haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyNC0wMS0yM1QxMDozOTo1MS41MzdaIiwiaWF0IjoxNzA2MDA2MzkxLCJleHAiOjE3MDYwMDk5OTF9.-THilrRK6PA5d39Us1PxWdqcuGlCg10DWRLa0xF8JlY",
+			"type": "string"
+		}
+	]
+}
