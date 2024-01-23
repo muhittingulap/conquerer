@@ -24,6 +24,7 @@ const lists = async (req, res) => {
 
     const blogLists = await Blog.findAll({
       where: wh,
+      attributes: ['id','title','content', 'createdAt'],
       include: [
         {
           model: Comment,
