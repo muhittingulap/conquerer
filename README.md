@@ -47,3 +47,6 @@ $ npx sequelize-cli db:migrate
 $ npx sequelize-cli db:seed:all
 
 ```
+
+# Postman Document and API services Collections
+postman/Conquerer RESTFul API service Document.postman_collection.json
