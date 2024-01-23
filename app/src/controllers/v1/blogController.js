@@ -143,7 +143,7 @@ const del = async (req, res) => {
   try {
 
     // transaction başlatıyoruz birden fazla bağlantılı işlem yaptığımız için bir işlemde sorun olursa yapmasın istiyorum
-    await sequelize.transaction(async (t) => {
+     await sequelize.transaction(async (t) => {
 
       const blogExists = await Blog.findOne({
         where: {
@@ -157,6 +157,7 @@ const del = async (req, res) => {
 
       // Bloga ait tüm yorumları siliyorum.
       await Comment.destroy({
+        return:false,
         where: {
           BlogId: id,
         },
@@ -165,6 +166,7 @@ const del = async (req, res) => {
 
       // Blogu silme işlemini yapıyoruz. Yukarıda user kontrolü yaptığımız için zadece id üzerinden silme işlemnini yapabiliriz.
       await Blog.destroy({
+        return:false,
         where: {
           id: blogExists.id
         },
