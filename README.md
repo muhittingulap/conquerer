@@ -43,6 +43,7 @@ Project installation database steps with sequelize-cli package
 
 $ cd app/src/
 $ cp .dev.env .env
+$ npx sequelize-cli db:migrate:undo:all
 $ npx sequelize-cli db:migrate
 $ npx sequelize-cli db:seed:all
 
@@ -50,3 +51,7 @@ $ npx sequelize-cli db:seed:all
 
 # Postman Document and API services Collections
 postman/Conquerer RESTFul API service Document.postman_collection.json
+
+# Sequelize Command
+- npx sequelize-cli seed:generate --name category-seeder
+- npx sequelize-cli model:generate --name Category --attributes name:string

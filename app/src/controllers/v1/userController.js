@@ -202,24 +202,15 @@ const del = async (req, res) => {
 
 const stats = async (req, res) => {
 
-    // postu olan kullanıcı sayısını buluyorum
+    // postu olan kullanıcı sayısını buluyorum benzersiz sayıyı bulabilmek için cardinality kullandım
     const responsePost = await elasticClient.search({
         index: 'posts',
         body: {
             size: 0,
             aggs: {
-                posts: {
-                    filter: {
-                        exists: {
-                            field: 'profile.username.keyword'
-                        }
-                    },
-                    aggs: {
-                        blogger: {
-                            cardinality: {
-                                field: 'profile.username.keyword'
-                            }
-                        }
+                blogger: {
+                    cardinality: {
+                        field: 'profile.username.keyword'
                     }
                 }
             }
@@ -234,9 +225,10 @@ const stats = async (req, res) => {
     const total = responseUser.hits.total.value;
     const data = {
         total,
-        blogger: responsePost.aggregations.posts.blogger.value,
-        reader: total - responsePost.aggregations.posts.blogger.value // toplam kullanıcı sayısından postu olan kullanıcı sayısını çıkarıp sadece okuyucularu buluyorum
+        blogger: responsePost.aggregations.blogger.value,
+        reader: total - responsePost.aggregations.blogger.value // toplam kullanıcı sayısından postu olan kullanıcı sayısını çıkarıp sadece okuyucularu buluyorum
     }
+
     return res.json({ status: true, message: 'User Stats ElasticSearch Successfuly', data });
 }
 

@@ -131,3 +131,4 @@ dist
 .DS_Store
 app/yarn.lock
 docker/db
+docker/esdata
